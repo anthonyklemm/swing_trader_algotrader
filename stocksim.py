@@ -9,7 +9,6 @@ import yfinance as yf
 import mplfinance as mpf
 
 # Parameters
-stock_name = "DJT31891-USD"
 stock_name = "RKLB"
 start_date = "2022-01-08"
 end_date = "2025-03-16"
@@ -53,7 +52,7 @@ buy_signals, sell_signals, buy_prices = [], [], []
 consecutive_buys = 0
 max_consecutive_buys = 2
 last_buy_index = -window_size
-# We'll track how much total money we've put in so far (cost basis).
+# Track how much total money we've put in so far (cost basis).
 # Start with the initial investment:
 invested_so_far = initial_investment
 invested_so_far_list = []
@@ -205,34 +204,5 @@ plt.figtext(
 
 fig.tight_layout()
 plt.show()
-print(stock[["Open","High","Low","Close"]].head(20))
-print(stock[["Open","High","Low","Close"]].dtypes)
-# 1) Ensure your "TradeDate" is set as a DatetimeIndex
-stock.set_index("TradeDate", inplace=True)
-
-# 2) Convert OHLC columns to numeric and drop invalid rows
-stock["Open"] = pd.to_numeric(stock["Open"], errors="coerce")
-stock["High"] = pd.to_numeric(stock["High"], errors="coerce")
-stock["Low"] = pd.to_numeric(stock["Low"], errors="coerce")
-stock["Close"] = pd.to_numeric(stock["Close"], errors="coerce")
-
-stock.dropna(subset=["Open","High","Low","Close"], inplace=True)
-
-# 3) Create addplots for your rolling lines
-apds = [
-    mpf.make_addplot(stock["RollingAvg"], color='orange'),
-    mpf.make_addplot(stock["DipLine"],    color='green'),
-    mpf.make_addplot(stock["GainLine"],   color='red'),
-]
-
-# 4) Plot with mplfinance
-mpf.plot(
-    stock,
-    type='candle',
-    style='charles',
-    volume=True,
-    addplot=apds,
-    title="Candlestick with Rolling Averages"
-)
 
 #%%
