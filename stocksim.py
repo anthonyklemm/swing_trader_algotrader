@@ -169,7 +169,7 @@ ax1.set_xlabel("Date-Time")
 ax1.set_ylabel("Profit/Loss ($)", color="blue")
 ax1.grid(True)
 
-# Right Y-axis: BTC Price + Rolling Averages
+# Right Y-axis: Stock Price + Rolling Averages
 ax2 = ax1.twinx()
 ax2.plot(stock["TradeDate"], stock["Close"], color="gray", alpha=0.5, label=stock_name)
 ax2.set_ylabel(f"{stock_name} Price ($)", color="gray")
